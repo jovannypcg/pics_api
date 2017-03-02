@@ -16,7 +16,13 @@ let UserSchema = new Schema({
     picture     : String,
     password    : String,
     moves       : [{ type: Schema.Types.ObjectId, ref: 'Move' }]
-}, { collection: 'user', timestamps: { createdAt: 'created_at' } });
+}, {
+    collection: 'user',
+    timestamps: {
+        createdAt: 'created_at',
+        updatedAt: 'updated_at'
+    }
+});
 
 /**
  * Statics
