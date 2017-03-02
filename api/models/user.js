@@ -3,6 +3,8 @@
 let mongoose = require('mongoose');
 let Schema = mongoose.Schema;
 
+mongoose.Promise = require('bluebird');
+
 /**
  * Defines the properties of a user.
  */
@@ -23,4 +25,4 @@ UserSchema.statics.load = function(id, cb) {
     this.findOne({ _id: id }).exec(cb);
 };
 
-mongoose.model('User', UserSchema);
+module.exports = mongoose.model('User', UserSchema);
