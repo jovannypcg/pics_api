@@ -10,6 +10,7 @@
   "author": "Mango",
   "license": "ISC",
   "dependencies": {
+    "bluebird": "^3.4.7",
     "bunyan": "^1.5.1",
     "jsonwebtoken": "^7.3.0",
     "mongoose": "^4.4.3",
