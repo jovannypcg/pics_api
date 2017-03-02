@@ -21,7 +21,7 @@ let logger = new Logger({
             level: 'debug'
         },
         {
-            path: `./logs/${config.app.name}.log`,
+            path: `./api/logs/${config.app.name}.log`,
             level: 'trace'
         }
     ],

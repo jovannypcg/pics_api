@@ -3,8 +3,8 @@
 /**
  * Server Dependencies
  */
-let mongoose = require('./config/system/mongoose');
-let restify = require('./config/system/restify');
+let mongoose = require('./api/config/system/mongoose');
+let restify = require('./api/config/system/restify');
 
 // Mongoose and Server Initialization
 mongoose.init( startServer => restify.init() );
