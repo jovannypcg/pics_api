@@ -6,6 +6,7 @@ let securityUtils = require('./../utils/security_utils');
 let responseUtils = require('./../utils/response_utils');
 let paramsValidator = require('./../utils/param_validator');
 let UnauthorizedError = require('./../utils/errors').UnauthorizedError;
+const config = require('./../config/config');
 
 const TAG = 'auth_controller';
 const LOG_LEVEL = 'debug';
@@ -66,7 +67,7 @@ exports.login = function(request, response, next) {
             id: foundUser.id
         };
 
-        credential = securityUtils.getCredential();
+        credential = securityUtils.getCredential(config.auth_secret);
         token = securityUtils.getToken(payload, credential);
 
         response.send(200, {
