@@ -11,8 +11,10 @@
   "license": "ISC",
   "dependencies": {
     "bunyan": "^1.5.1",
+    "jsonwebtoken": "^7.3.0",
     "mongoose": "^4.4.3",
-    "restify": "^4.0.3"
+    "restify": "^4.0.3",
+    "sha1": "^1.1.1"
   },
   "devDependencies": {
     "tape": "^4.6.3"
