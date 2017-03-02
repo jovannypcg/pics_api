@@ -6,15 +6,29 @@ let securityUtils = require('./../utils/security_utils');
 let responseUtils = require('./../utils/response_utils');
 let paramsValidator = require('./../utils/param_validator');
 let UnauthorizedError = require('./../utils/errors').UnauthorizedError;
+const config = require('./../config/config');
 
 const TAG = 'auth_controller';
 const LOG_LEVEL = 'debug';
 
 const LOGIN_EXPECTED_PARAMS = [
-    'username',
+    'email',
     'password'
 ]
 
+/**
+ * Receives email and password of a user.
+ * Verifies that the email exists and the password matches with
+ * the stored user in db. If everything is OK, a JSON Web Token
+ * is sent in the HTTP response.
+ *
+ * @param {object} request  The HTTP request object. Should include
+ *                          email and password.
+ * @param {object} response The HTTP response object which will
+ *                          reply to the request.
+ * @param {funciton} next   Callback function to execute after responding
+ *                          to the request.
+ */
 exports.login = function(request, response, next) {
     const logger = request.log;
 
@@ -22,11 +36,11 @@ exports.login = function(request, response, next) {
     let token;
     let credential;
 
-    let username = request.params.username;
+    let email = request.params.email;
     let password = request.params.password;
 
     let query = {
-        username: username
+        email: email
     };
 
     let areValidParams = paramsValidator.validateParams(request.params,
@@ -48,11 +62,12 @@ exports.login = function(request, response, next) {
         }
 
         payload = {
-            username: foundUser.username,
+            email: foundUser.email,
+            first_name: foundUser.first_name,
             id: foundUser.id
         };
 
-        credential = securityUtils.getCredential();
+        credential = securityUtils.getCredential(config.auth_secret);
         token = securityUtils.getToken(payload, credential);
 
         response.send(200, {
@@ -64,7 +79,7 @@ exports.login = function(request, response, next) {
         return next();
     }).catch(error => {
         logger.error( `${TAG} login :: ${error}` );
-        responseUtls.errorResponseBaseOnErrorType(error, response);
+        responseUtils.errorResponseBaseOnErrorType(error, response);
         return next();
     });
 }

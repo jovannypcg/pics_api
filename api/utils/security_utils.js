@@ -7,8 +7,8 @@ const config = require('./../config/config');
 /**
  * Generates a credential for singing in.
  */
-exports.getCredential = function() {
-    return hash(config.auth_secret);
+exports.getCredential = function(secret) {
+    return hash(secret);
 }
 
 /**
