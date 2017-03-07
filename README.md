@@ -1,4 +1,4 @@
-# Mueve.me API
+# Pics API
 
 ## Tecnologías
 - Node v4.2
