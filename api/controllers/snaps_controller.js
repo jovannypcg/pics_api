@@ -75,3 +75,35 @@ exports.createSnap = function(request, response, next) {
         return next();
     });
 }
+
+/**
+ * Gets the snaps from DB.
+ *
+ * @param {object} request  The HTTP request object, which could
+ *                          have query parameters.
+ * @param {object} response The HTTP response object which will
+ *                          reply to the request.
+ * @param {funciton} next   Callback function to execute after responding
+ *                          to the request.
+ */
+exports.getSnaps = function(request, response, next) {
+    const logger = request.log;
+
+    let snapsQuery = {
+        user: request.params.user_id
+    }
+
+    Snap.find(snapsQuery).exec().then(snaps => {
+        let responseObject = responseUtils.convertToResponseObjects(
+                snaps,
+                SNAP_RESPONSE_UNDESIRED_KEYS,
+                request);
+
+        response.send(200, responseObject);
+        return next();
+    }).catch(error => {
+        logger.error(`${TAG} createSnap:: ${error}` );
+        responseUtils.errorResponseBaseOnErrorType(error, response);
+        return next();
+    });
+}
