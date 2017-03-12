@@ -20,8 +20,7 @@ const SNAP_EXPECTED_PARAMS = [
     'pics',
     'location',
     'cause',
-    'description',
-    'device_details'
+    'description'
 ];
 
 /**
@@ -59,15 +58,16 @@ exports.createSnap = function(request, response, next) {
         location: request.params.location,
         cause: request.params.cause,
         description: request.params.description,
-        device_details: request.params.device_details
+        ph_os_version: request.params.ph_os_version,
+        ph_brand: request.params.ph_brand,
+        ph_manufacturer: request.params.ph_manufacturer,
+        ph_model: request.params.ph_model,
+        ph_serial: request.params.ph_serial,
+        ph_device: request.params.ph_device
     });
 
     newSnap.save().then(savedSnap => {
-        let responseObject = responseUtils.convertToResponseObject(
-                savedSnap,
-                SNAP_RESPONSE_UNDESIRED_KEYS);
-
-        response.send(200, responseObject);
+        response.send(200, savedSnap);
         return next();
     }).catch(error => {
         logger.error(`${TAG} createSnap:: ${error}` );
@@ -94,12 +94,7 @@ exports.getSnaps = function(request, response, next) {
     }
 
     Snap.find(snapsQuery).exec().then(snaps => {
-        let responseObject = responseUtils.convertToResponseObjects(
-                snaps,
-                SNAP_RESPONSE_UNDESIRED_KEYS,
-                request);
-
-        response.send(200, responseObject);
+        response.send(200, snaps);
         return next();
     }).catch(error => {
         logger.error(`${TAG} createSnap:: ${error}` );

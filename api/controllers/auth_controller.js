@@ -70,12 +70,16 @@ exports.login = function(request, response, next) {
         credential = securityUtils.getCredential(config.auth_secret);
         token = securityUtils.getToken(payload, credential);
 
-        response.send(200, {
-            data: {
-                token: token
-            }
-        });
+        let res = {
+            token: token,
+            email: foundUser.email,
+            _id: foundUser.id,
+            first_name: foundUser.first_name
+        };
 
+        console.log(res);
+
+        response.send(200, res);
         return next();
     }).catch(error => {
         logger.error( `${TAG} login :: ${error}` );

@@ -68,11 +68,7 @@ exports.createUser = function(request, response, next) {
 
         return newUser.save();
     }).then(savedUser => {
-        let responseObject = responseUtils.convertToResponseObject(
-                savedUser,
-                USER_RESPONSE_UNDESIRED_KEYS);
-
-        response.send(200, responseObject);
+        response.send(200, savedUser);
         return next();
     }).catch(error => {
         logger.error(`${TAG} createUser:: ${error}` );
